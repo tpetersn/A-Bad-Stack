@@ -29,17 +29,16 @@ impl List {
         self.head = Link::More(new_node);//updates the head to be our more variant of he link which is a Box
     }
     pub fn pop(&mut self) -> Option<i32> {
-        let result;
         match mem::replace( &mut self.head, Link::Empty) {
             Link::Empty => {
-                result = None;
+                None
             } //list is empty it returns None
-            Link::More(node) => { //if the list is not empty it returns some and the first value of the list
-                result = Some(node.elem); 
+            Link::More(node) => { //if the list is not empty it returns some and the first value of the list 
                 self.head = node.next; //replace head of the list with the second item in the list
-            }
+                Some(node.elem)
+            }   
         }
-        result //returns the popped value (Some(elem))
+   
     }
 }
 
