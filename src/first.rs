@@ -30,9 +30,7 @@ impl List {
     }
     pub fn pop(&mut self) -> Option<i32> {
         match mem::replace( &mut self.head, Link::Empty) {
-            Link::Empty => {
-                None
-            } //list is empty it returns None
+            Link::Empty =>  None, //list is empty it returns None
             Link::More(node) => { //if the list is not empty it returns some and the first value of the list 
                 self.head = node.next; //replace head of the list with the second item in the list
                 Some(node.elem)
