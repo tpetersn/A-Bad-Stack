@@ -1,0 +1,1 @@
+C:\Users\Thomas\ Petersen\desktop\rust_projects\lists-ex\target\debug\liblists_ex.rlib: C:\Users\Thomas\ Petersen\desktop\rust_projects\lists-ex\src\first.rs C:\Users\Thomas\ Petersen\desktop\rust_projects\lists-ex\src\lib.rs
