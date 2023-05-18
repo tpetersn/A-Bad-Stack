@@ -26,38 +26,32 @@ impl<T> List<T> {
     
         let raw_tail: *mut _ = &mut *new_tail;
     
-        // .is_null checks for null, equivalent to checking for None
         if !self.tail.is_null() {
-            // If the old tail existed, update it to point to the new tail
-            *(self.tail).next = Some(new_tail);
+            // Hello Compiler, I Know I Am Doing Something Dangerous And
+            // I Promise To Be A Good Programmer Who Never Makes Mistakes.
+            unsafe {
+                (*self.tail).next = Some(new_tail);
+            }
         } else {
-            // Otherwise, update the head to point to it
             self.head = Some(new_tail);
         }
     
         self.tail = raw_tail;
     }
+    pub fn pop(&mut self) -> Option<T> {
+        self.head.take().map(|head| {
+            let head = *head;
+            self.head = head.next;
+    
+            if self.head.is_none() {
+                self.tail = ptr::null_mut();
+            }
+    
+            head.elem
+        })
+    }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #[cfg(test)]
 mod test {
@@ -89,6 +83,14 @@ mod test {
         // Check exhaustion
         assert_eq!(list.pop(), Some(5));
         assert_eq!(list.pop(), None);
+
+        // Check the exhaustion case fixed the pointer right
+        list.push(6);
+        list.push(7);
+
+        // Check normal removal
+        assert_eq!(list.pop(), Some(6));
+        assert_eq!(list.pop(), Some(7));
+        assert_eq!(list.pop(), None);
     }
 }
-
